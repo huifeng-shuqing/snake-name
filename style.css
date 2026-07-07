@@ -1,0 +1,251 @@
+/* ============================================
+   贪吃蛇 - 样式表
+   ============================================ */
+
+/* --- CSS 变量 --- */
+:root {
+    --bg: #1a1a2e;
+    --surface: #16213e;
+    --primary: #e94560;
+    --primary-glow: #ff6b81;
+    --accent: #0f3460;
+    --text: #eee;
+    --text-muted: #999;
+    --success: #4ade80;
+    --warning: #facc15;
+    --border-radius: 12px;
+    --font: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* --- 基础重置 --- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(233, 69, 96, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(15, 52, 96, 0.15) 0%, transparent 50%);
+}
+
+/* --- 容器 --- */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* --- 头部 --- */
+header {
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--primary), #ff6b81, #ffa502);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    animation: titlePulse 2s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+}
+
+.score-board {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+}
+
+.score-item {
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--border-radius);
+    padding: 10px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.score-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.4);
+}
+
+.score-item .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.score-item .value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-glow);
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- 游戏区域 --- */
+.game-wrapper {
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow:
+        0 0 30px rgba(233, 69, 96, 0.15),
+        0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+#gameCanvas {
+    display: block;
+    background: #0a0a1a;
+}
+
+/* --- 覆盖层 (开始/结束/暂停) --- */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 26, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay-content {
+    text-align: center;
+    padding: 32px;
+}
+
+.overlay-content h2 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.overlay-content p {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+/* --- 按钮 --- */
+.btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.25s;
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+}
+
+.btn:hover {
+    background: var(--primary-glow);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(233, 69, 96, 0.6);
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn-small {
+    padding: 8px 24px;
+    font-size: 0.9rem;
+}
+
+footer {
+    display: flex;
+    gap: 12px;
+}
+
+/* --- 操作提示 --- */
+.controls-hint {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.controls-hint p {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.controls-hint .pause-hint {
+    margin-top: 8px;
+}
+
+.keys {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.key {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--text);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* --- 响应式 --- */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .score-board {
+        gap: 12px;
+    }
+
+    .score-item {
+        padding: 8px 16px;
+        min-width: 80px;
+    }
+
+    .score-item .value {
+        font-size: 1.2rem;
+    }
+}
