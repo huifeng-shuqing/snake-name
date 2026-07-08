@@ -2,6 +2,14 @@
 
 一个基于 HTML5 Canvas 的创新贪吃蛇游戏，在经典玩法上加入了连击、道具、障碍、传送门等丰富机制。
 
+## 📸 游戏截图
+
+<p align="center">
+  <img src="1.png" alt="游戏主界面" width="45%" />
+  &nbsp;&nbsp;
+  <img src="2.png" alt="游戏进行中" width="45%" />
+</p>
+
 ## 🎮 快速开始
 
 直接用浏览器打开 `index.html` 即可游玩，无需安装任何依赖。
@@ -96,6 +104,8 @@ snake-name/
 ├── index.html    # 游戏页面
 ├── game.js       # 核心游戏逻辑
 ├── style.css     # 样式表
+├── 1.png         # 游戏截图 1
+├── 2.png         # 游戏截图 2
 └── README.md     # 本文件
 ```
 
