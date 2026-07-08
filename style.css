@@ -1,5 +1,5 @@
 /* ============================================
-   贪吃蛇 - 样式表
+   贪吃蛇 Pro - 样式表
    ============================================ */
 
 /* --- CSS 变量 --- */
@@ -15,6 +15,14 @@
     --warning: #facc15;
     --border-radius: 12px;
     --font: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+    /* 道具颜色 */
+    --shield-color: #3b82f6;
+    --shield-glow: #60a5fa;
+    --speed-color: #f59e0b;
+    --speed-glow: #fbbf24;
+    --double-color: #a855f7;
+    --double-glow: #c084fc;
 }
 
 /* --- 基础重置 --- */
@@ -62,6 +70,18 @@ header h1 {
     background-clip: text;
     text-shadow: none;
     animation: titlePulse 2s ease-in-out infinite;
+    position: relative;
+}
+
+.pro-badge {
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #ff6b6b, #ffa502);
+    -webkit-text-fill-color: #fff;
+    padding: 2px 10px;
+    border-radius: 20px;
+    letter-spacing: 2px;
+    vertical-align: middle;
+    animation: badgeGlow 1.5s ease-in-out infinite;
 }
 
 @keyframes titlePulse {
@@ -69,21 +89,28 @@ header h1 {
     50% { filter: brightness(1.2); }
 }
 
+@keyframes badgeGlow {
+    0%, 100% { box-shadow: 0 0 8px rgba(255, 107, 107, 0.4); }
+    50% { box-shadow: 0 0 20px rgba(255, 165, 2, 0.7); }
+}
+
+/* --- 分数面板 --- */
 .score-board {
     display: flex;
-    gap: 24px;
+    gap: 16px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .score-item {
     background: var(--surface);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--border-radius);
-    padding: 10px 24px;
+    padding: 10px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 100px;
+    min-width: 90px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -94,7 +121,7 @@ header h1 {
 }
 
 .score-item .label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     color: var(--text-muted);
@@ -102,10 +129,91 @@ header h1 {
 }
 
 .score-item .value {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-glow);
     font-variant-numeric: tabular-nums;
+}
+
+/* --- Combo 显示 --- */
+#comboDisplay {
+    display: flex;
+}
+
+#comboDisplay.hidden {
+    opacity: 0.4;
+}
+
+.combo-value {
+    transition: transform 0.15s ease, color 0.3s ease;
+}
+
+#comboDisplay:not(.hidden) .combo-value {
+    animation: comboPop 0.3s ease-out;
+}
+
+/* Combo 热度颜色 */
+.combo-hot { color: #ffa502 !important; }
+.combo-fire { color: #ff6b6b !important; }
+
+@keyframes comboPop {
+    0%   { transform: scale(1.5); }
+    50%  { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+/* --- 道具状态栏 --- */
+.powerup-bar {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.pu-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0.3;
+    filter: grayscale(1);
+    transition: all 0.3s ease;
+}
+
+.pu-badge.active {
+    opacity: 1;
+    filter: grayscale(0);
+}
+
+.shield-badge.active {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: var(--shield-color);
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+    animation: pulseBadge 1.5s ease-in-out infinite;
+}
+
+.speed-badge.active {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: var(--speed-color);
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+    animation: pulseBadge 0.8s ease-in-out infinite;
+}
+
+.double-badge.active {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: var(--double-color);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+    animation: pulseBadge 1.2s ease-in-out infinite;
+}
+
+@keyframes pulseBadge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
 }
 
 /* --- 游戏区域 --- */
@@ -117,6 +225,7 @@ header h1 {
         0 0 30px rgba(233, 69, 96, 0.15),
         0 20px 60px rgba(0, 0, 0, 0.5);
     border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.05s ease;
 }
 
 #gameCanvas {
@@ -144,7 +253,9 @@ header h1 {
 
 .overlay-content {
     text-align: center;
-    padding: 32px;
+    padding: 24px 32px;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 .overlay-content h2 {
@@ -154,7 +265,7 @@ header h1 {
 
 .overlay-content p {
     color: var(--text-muted);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-size: 1rem;
 }
 
@@ -163,7 +274,7 @@ header h1 {
     background: var(--primary);
     color: #fff;
     border: none;
-    padding: 12px 40px;
+    padding: 12px 36px;
     font-size: 1.1rem;
     font-weight: 700;
     border-radius: 50px;
@@ -184,7 +295,7 @@ header h1 {
 }
 
 .btn-small {
-    padding: 8px 24px;
+    padding: 8px 20px;
     font-size: 0.9rem;
 }
 
@@ -195,8 +306,8 @@ footer {
 
 /* --- 操作提示 --- */
 .controls-hint {
-    margin-top: 24px;
-    padding-top: 20px;
+    margin-top: 20px;
+    padding-top: 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -230,22 +341,67 @@ footer {
     border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+/* --- 新玩法标签 --- */
+.features-hint {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.features-hint p {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.feature-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+}
+
+.feature-tags span {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.feature-tags span:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--text);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
 /* --- 响应式 --- */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     header h1 {
         font-size: 2rem;
     }
 
     .score-board {
-        gap: 12px;
+        gap: 8px;
     }
 
     .score-item {
-        padding: 8px 16px;
-        min-width: 80px;
+        padding: 8px 12px;
+        min-width: 70px;
     }
 
     .score-item .value {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+    }
+
+    .overlay-content {
+        padding: 16px 20px;
+    }
+
+    .overlay-content h2 {
+        font-size: 1.5rem;
     }
 }

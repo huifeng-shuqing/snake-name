@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐍 贪吃蛇</title>
+    <title>🐍 贪吃蛇 Pro</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🐍 贪吃蛇</h1>
+            <h1>🐍 贪吃蛇 <span class="pro-badge">PRO</span></h1>
             <div class="score-board">
                 <div class="score-item">
                     <span class="label">当前分数</span>
@@ -23,6 +23,15 @@
                     <span class="label">关卡</span>
                     <span id="level" class="value">1</span>
                 </div>
+                <div class="score-item" id="comboDisplay">
+                    <span class="label">连击 🔥</span>
+                    <span id="combo" class="value combo-value">x1</span>
+                </div>
+            </div>
+            <div id="powerupBar" class="powerup-bar" style="display:none;">
+                <span id="shieldIndicator" class="pu-badge shield-badge">🛡️</span>
+                <span id="speedIndicator" class="pu-badge speed-badge">⚡</span>
+                <span id="doubleIndicator" class="pu-badge double-badge">⭐</span>
             </div>
         </header>
 
@@ -30,7 +39,7 @@
             <canvas id="gameCanvas"></canvas>
             <div id="overlay" class="overlay">
                 <div class="overlay-content">
-                    <h2 id="overlayTitle">🐍 贪吃蛇</h2>
+                    <h2 id="overlayTitle">🐍 贪吃蛇 Pro</h2>
                     <p id="overlayMsg">按 空格键 或点击按钮开始游戏</p>
                     <button id="actionBtn" class="btn">开始游戏</button>
                     <div class="controls-hint">
@@ -41,6 +50,18 @@
                             <span class="key">W A S D</span>
                         </div>
                         <p class="pause-hint">按 <span class="key">空格</span> 暂停/继续</p>
+                    </div>
+                    <div class="features-hint">
+                        <p>✨ 新玩法</p>
+                        <div class="feature-tags">
+                            <span>🔥 连击</span>
+                            <span>🛡️ 护盾</span>
+                            <span>⚡ 加速</span>
+                            <span>⭐ 双倍</span>
+                            <span>🪨 障碍</span>
+                            <span>🌀 传送</span>
+                            <span>🏃 金苹果</span>
+                        </div>
                     </div>
                 </div>
             </div>
